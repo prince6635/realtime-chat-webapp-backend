@@ -1,9 +1,9 @@
 package main
 
 import (
-	"net/http"
 	"fmt"
 	"github.com/gorilla/websocket"
+	"net/http"
 )
 
 func main() {
@@ -11,8 +11,8 @@ func main() {
 	http.ListenAndServe(":8080", nil)
 }
 
-var upgrader = websocket.Upgrader {
-	ReadBufferSize: 1024,
+var upgrader = websocket.Upgrader{
+	ReadBufferSize:  1024,
 	WriteBufferSize: 1024,
 	CheckOrigin: func(r *http.Request) bool {
 		return true // disable same origion policy for now

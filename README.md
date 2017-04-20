@@ -4,4 +4,5 @@
 * Packages
     * RethinkDB: $ go get -u github.com/dancannon/gorethink
     * WebSocket: $ go get -u github.com/gorilla/websocket
+    * Decode: $ go get -u github.com/mitchellh/mapstructure
     
