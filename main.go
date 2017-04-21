@@ -1,13 +1,20 @@
 package main
 
 import (
-	"fmt"
-	"github.com/gorilla/websocket"
 	"net/http"
-	"github.com/realtime-chat-webapp-backend/models"
-	"github.com/realtime-chat-webapp-backend/utils"
+	"github.com/realtime-chat-webapp-backend/controllers"
 )
 
+// For realtime chat web app
+func main() {
+	router := controllers.NewRouter()
+	//router.Handle("channel add", controllers.AddChannel)
+
+	http.Handle("/", router)
+	http.ListenAndServe(":8080", nil)
+}
+
+/* For demo purpose
 func main() {
 	http.HandleFunc("/", handler)
 	http.ListenAndServe(":8080", nil)
@@ -22,9 +29,8 @@ var upgrader = websocket.Upgrader{
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	/* http server
-	fmt.Fprintf(w, "Hi there, I love %s!", r.URL.Path[1:])
-	*/
+	// http server
+	// fmt.Fprintf(w, "Hi there, I love %s!", r.URL.Path[1:])
 
 	// WebSocket server
 	socket, err := upgrader.Upgrade(w, r, nil)
@@ -89,3 +95,4 @@ func readMessagesDemo(socket *websocket.Conn) {
 		}
 	}
 }
+*/
