@@ -6,6 +6,18 @@
     * WebSocket: $ go get -u github.com/gorilla/websocket
     * Decode: $ go get -u github.com/mitchellh/mapstructure
     
+* Run
+    ```
+    under project folder: 
+    $ go build
+    $ ./realtime-chat-webapp-backend
+    $ go clean
+    
+    or 
+    
+    $ go run *.go
+    ```
+
 * Test
     * Test client connects to the server with "channel subscribe" event, then send a "channel add" event
     ```

@@ -1,9 +1,9 @@
 package controllers
 
 import (
+	"fmt"
 	"github.com/gorilla/websocket"
 	"net/http"
-	"fmt"
 )
 
 type Handler func(*Client, interface{})

@@ -8,7 +8,7 @@ import (
 // For realtime chat web app
 func main() {
 	router := controllers.NewRouter()
-	//router.Handle("channel add", controllers.AddChannel)
+	router.Handle("channel add", controllers.AddChannel)
 
 	http.Handle("/", router)
 	http.ListenAndServe(":8080", nil)
