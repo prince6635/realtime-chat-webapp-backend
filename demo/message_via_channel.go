@@ -1,26 +1,26 @@
 package main
 
 import (
-	"github.com/realtime-chat-webapp-backend/models"
-	"time"
-	"math/rand"
 	"fmt"
+	"github.com/realtime-chat-webapp-backend/models"
+	"math/rand"
+	"time"
 )
 
 // Demo for sending message object via channel
 type MsgClient struct {
-	msgChann chan models.Message
+	msgChan chan models.Message
 }
 
 func NewMsgClient() *MsgClient {
 	return &MsgClient{
-		msgChann: make(chan models.Message),
+		msgChan: make(chan models.Message),
 	}
 }
 
 // Receive
 func (msgClient *MsgClient) write() {
-	for msg := range msgClient.msgChann {
+	for msg := range msgClient.msgChan {
 		fmt.Printf("%#v\n", msg)
 	}
 }
@@ -29,7 +29,7 @@ func (msgClient *MsgClient) write() {
 func (msgClient *MsgClient) subscribeMessages() {
 	for {
 		time.Sleep(randomInSecond())
-		msgClient.msgChann <- models.Message{"message add", ""}
+		msgClient.msgChan <- models.Message{"message add", ""}
 	}
 }
 
@@ -37,7 +37,7 @@ func (msgClient *MsgClient) subscribeMessages() {
 func (msgClient *MsgClient) subscribeChannels() {
 	for {
 		time.Sleep(randomInSecond())
-		msgClient.msgChann <- models.Message{"channel add", ""}
+		msgClient.msgChan <- models.Message{"channel add", ""}
 	}
 }
 
@@ -49,5 +49,5 @@ func SendMsgViaChannel() {
 	msgClient := NewMsgClient()
 	go msgClient.subscribeChannels() // send data to channel
 	go msgClient.subscribeMessages() // send data to channel
-	msgClient.write() // receive data from channel
+	msgClient.write()                // receive data from channel
 }

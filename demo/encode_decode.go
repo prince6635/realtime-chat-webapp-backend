@@ -7,18 +7,18 @@ import (
 )
 
 type Message struct {
-	Name string `json:"name"`
+	Name string      `json:"name"`
 	Data interface{} `json:"data"`
 }
 
 type Channel struct {
-	Id string `json:"id"`
+	Id   string `json:"id"`
 	Name string `json:"name"`
 }
 
 func DecodeEncode() {
 	recRawMsg := []byte(`{"name":"channel add",` +
-			`"data":{"name":"Hardware Support"}}`)
+		`"data":{"name":"Hardware Support"}}`)
 	// Decode received raw message
 	var recMsg Message
 
@@ -61,7 +61,7 @@ func addChannel(data interface{}) (Channel, error) {
 	return channel, nil
 }
 
-func addChannelWithDecodeLib(data interface{}) (Channel, error)  {
+func addChannelWithDecodeLib(data interface{}) (Channel, error) {
 	var channel Channel
 	err := mapstructure.Decode(data, &channel)
 	if err != nil {

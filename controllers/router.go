@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"net/http"
 	"github.com/gorilla/websocket"
+	"net/http"
 )
 
 type Handler func(*Client, interface{})
@@ -27,6 +27,11 @@ var upgrader = websocket.Upgrader{
 	CheckOrigin: func(r *http.Request) bool {
 		return true // disable same origion policy for now
 	},
+}
+
+func (r *Router) FindHandler(msgName string) (Handler, bool) {
+	handler, found := r.rules[msgName]
+	return handler, found
 }
 
 func (r *Router) ServeHTTP(w http.ResponseWriter, req *http.Request) {

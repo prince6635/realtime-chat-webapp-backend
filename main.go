@@ -1,8 +1,8 @@
 package main
 
 import (
-	"net/http"
 	"github.com/realtime-chat-webapp-backend/controllers"
+	"net/http"
 )
 
 // For realtime chat web app

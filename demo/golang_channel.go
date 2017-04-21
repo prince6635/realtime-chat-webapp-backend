@@ -8,6 +8,6 @@ func GolangChannel() {
 		msgChan <- "Hello, golang channel!"
 	}()
 
-	msg := <- msgChan
+	msg := <-msgChan
 	fmt.Println(msg)
 }
