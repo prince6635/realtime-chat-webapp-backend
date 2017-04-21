@@ -1,6 +1,7 @@
 package main
 
 func main() {
-	// DecodeEncode()
-	GolangChannel()
+	//DecodeEncode()
+	//GolangChannel()
+	SendMsgViaChannel()
 }
