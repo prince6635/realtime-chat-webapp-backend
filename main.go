@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"github.com/gorilla/websocket"
 	"net/http"
+	"github.com/realtime-chat-webapp-backend/models"
+	"github.com/realtime-chat-webapp-backend/utils"
 )
 
 func main() {
@@ -31,6 +33,47 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	//readMessagesDemo(socket)
+	// Use gorilla package to encode/decode JSON data
+	readMessages(socket)
+}
+
+// To test: http://jsbin.com and choose "javascript"->"ES6/Babel"
+func readMessages(socket *websocket.Conn) {
+	for {
+		var recMsg models.Message
+		err := socket.ReadJSON(&recMsg)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+
+		fmt.Printf("%#v\n", recMsg)
+
+		switch recMsg.Name {
+		case "channel add":
+			channel, _ := utils.AddChannel(recMsg.Data)
+
+			// TODO: save to database
+			// Send success-saved message to the client
+			var sendMsg models.Message
+			sendMsg.Name = "channel add"
+			sendMsg.Data = channel
+			err := socket.WriteJSON(sendMsg)
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+
+			fmt.Printf("%#v\n", recMsg)
+		case "channel subscribe":
+			go utils.SubscribeChannel(socket)
+		}
+	}
+}
+
+// To test: http://websocket.org/echo.html
+func readMessagesDemo(socket *websocket.Conn) {
 	for {
 		msgType, msg, err := socket.ReadMessage()
 		if err != nil {
