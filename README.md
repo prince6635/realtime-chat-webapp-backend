@@ -2,7 +2,8 @@
 <https://github.com/prince6635/realtime-chat-webapp>
 
 * Packages
-    * RethinkDB: $ go get -u github.com/dancannon/gorethink
+    * ~~(depreciated) RethinkDB: $ go get -u github.com/dancannon/gorethink~~
+    * RethinkDB: $ go get -u gopkg.in/gorethink/gorethink.v3
     * WebSocket: $ go get -u github.com/gorilla/websocket
     * Decode: $ go get -u github.com/mitchellh/mapstructure
     
