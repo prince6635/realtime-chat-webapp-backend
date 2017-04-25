@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	r "gopkg.in/gorethink/gorethink.v3"
 	"github.com/gorilla/websocket"
 	"github.com/realtime-chat-webapp-backend/models"
 )
@@ -12,13 +13,15 @@ type Client struct {
 	msgChan     chan models.Message
 	socket      *websocket.Conn
 	findHandler FindHandler // Find the corresponding handler in Router
+	session *r.Session
 }
 
-func NewClient(socket *websocket.Conn, findHandler FindHandler) *Client {
+func NewClient(socket *websocket.Conn, findHandler FindHandler, session *r.Session) *Client {
 	return &Client{
 		msgChan:     make(chan models.Message),
 		socket:      socket,
 		findHandler: findHandler,
+		session: session,
 	}
 }
 

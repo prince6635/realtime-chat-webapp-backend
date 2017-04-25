@@ -1,17 +1,30 @@
 package main
 
 import (
+	r "gopkg.in/gorethink/gorethink.v3"
 	"github.com/realtime-chat-webapp-backend/controllers"
 	"net/http"
+	"fmt"
+	"log"
 )
 
 // For realtime chat web app
 func main() {
-	router := controllers.NewRouter()
+	session, err := r.Connect(r.ConnectOpts{
+		Address:  "localhost:28015",
+		Database: "realtimechat",
+	})
+	if err != nil {
+		fmt.Printf("Error while connectiong to RethinkDB: %#v\n", err)
+		log.Panic(err.Error()) // App couldn't run without connecting to the DB
+	}
+
+	router := controllers.NewRouter(session)
 	router.Handle("channel add", controllers.AddChannel)
 
 	http.Handle("/", router)
-	http.ListenAndServe(":8080", nil)
+	// 8080 is used by RethinkDB management UI
+	http.ListenAndServe(":4000", nil)
 }
 
 /* For demo purpose

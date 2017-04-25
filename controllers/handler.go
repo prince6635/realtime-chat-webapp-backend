@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	r "gopkg.in/gorethink/gorethink.v3"
 	"fmt"
 	"github.com/mitchellh/mapstructure"
 	"github.com/realtime-chat-webapp-backend/models"
@@ -8,13 +9,28 @@ import (
 
 func AddChannel(client *Client, data interface{}) {
 	var channel models.Channel
-	mapstructure.Decode(data, &channel)
+	err := mapstructure.Decode(data, &channel)
+	if err != nil {
+		// So we could show the error in browser!
+		client.msgChan <- models.Message{"error", err.Error()}
+		return
+	}
 	fmt.Printf("Added channel: %#v\n", channel)
 
-	// TODO: insert into RethinkDB
+	// Insert into RethinkDB
+	err = r.Table("channel").
+		Insert(channel).
+		Exec(client.session)
+	if err != nil {
+		client.msgChan <- models.Message{"error", err.Error()}
+	}
+
+	/*
+	// for Demo: verify we could send data from handler to browser
 	var msg models.Message
 	msg.Name = "channel add"
 	channel.Id = "ABC123"
 	msg.Data = channel
 	client.msgChan <- msg
+	*/
 }
