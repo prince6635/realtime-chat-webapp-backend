@@ -18,12 +18,15 @@ func AddChannel(client *Client, data interface{}) {
 	fmt.Printf("Added channel: %#v\n", channel)
 
 	// Insert into RethinkDB
-	err = r.Table("channel").
-		Insert(channel).
-		Exec(client.session)
-	if err != nil {
-		client.msgChan <- models.Message{"error", err.Error()}
-	}
+	// DB operation should
+	go func() {
+		err = r.Table("channel").
+				Insert(channel).
+				Exec(client.session)
+		if err != nil {
+			client.msgChan <- models.Message{"error", err.Error()}
+		}
+	}()
 
 	/*
 	// for Demo: verify we could send data from handler to browser
