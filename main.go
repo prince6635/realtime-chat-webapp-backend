@@ -21,6 +21,8 @@ func main() {
 
 	router := controllers.NewRouter(session)
 	router.Handle("channel add", controllers.AddChannel)
+	// Without this event, nothing will show in the "Channel List" component on browser after "Add new channel".
+	router.Handle("channel subscribe", controllers.SubscribeChannel)
 
 	http.Handle("/", router)
 	// 8080 is used by RethinkDB management UI

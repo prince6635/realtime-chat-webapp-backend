@@ -37,3 +37,24 @@ func AddChannel(client *Client, data interface{}) {
 	client.msgChan <- msg
 	*/
 }
+
+func SubscribeChannel(client *Client, data interface{}) {
+	go func() {
+		cursor, err := r.Table("channel").
+				Changes(r.ChangesOpts{IncludeInitial: true}).
+				Run(client.session)
+		if err != nil {
+			client.msgChan <- models.Message{"error", err.Error()}
+			return
+		}
+
+		var change r.ChangeResponse
+		for cursor.Next(&change) {
+			if change.NewValue != nil && change.OldValue == nil {
+				// Which means INSERT happened
+				client.msgChan <- models.Message{"channel add", change.NewValue}
+				fmt.Println("Send <channel add> message event to broswer after subscribtion.")
+			}
+		}
+	}()
+}
