@@ -4,5 +4,7 @@ func main() {
 	//DecodeEncode()
 	//GolangChannel()
 	//SendMsgViaChannel()
-	RethinkDB()
+	//RethinkDB()
+	StopBlockingGoroutine()
 }
+
